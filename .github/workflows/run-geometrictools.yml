@@ -62,8 +62,8 @@ jobs:
         run: |
           pip install numpy
     
-      - name: Clear Disk Space
-        uses: Silverlan/common_actions/clear_disk_space@main
+      #- name: Clear Disk Space
+      #  uses: Silverlan/common_actions/clear_disk_space@main
 
       - name: Setup GCC
         uses: Silverlan/common_actions/setup_gcc@main
