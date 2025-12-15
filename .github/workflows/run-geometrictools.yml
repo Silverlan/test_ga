@@ -12,12 +12,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      #- name: Checkout Silverlan/pragma (develop)
-      #  uses: actions/checkout@v4
-      #  with:
-      #    repository: Silverlan/pragma
-      #    ref: develop
-      #    path: pragma
+      - name: Checkout Silverlan/pragma (develop)
+        uses: actions/checkout@v4
+        with:
+          repository: Silverlan/pragma
+          ref: develop
+          path: pragma
 
       #- name: Set up Python
       #  uses: actions/setup-python@v4
@@ -32,10 +32,62 @@ jobs:
       #      python -m pip install -r requirements.txt
       #    fi
 
-      - name: Setup Pragma
-        uses: Silverlan/pragma/github_actions/setup@develop
-        with:
-          branch: 'develop'
+      #- name: Setup Pragma
+      #  uses: Silverlan/pragma/github_actions/setup@develop
+      #  with:
+      #    branch: 'develop'
+
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v2
+
+      - name: Install Dependencies
+        shell: bash
+        run: |
+          sudo apt install ninja-build
+
+      # This is a temporary fix until https://github.com/actions/runner-images/pull/9956 has been merged
+      - name: Purge needrestart
+        shell: bash
+        if: ${{ runner.os == 'Linux' }}
+        run: |
+          sudo apt-get purge needrestart
+
+      - name: Set PIP_BREAK_SYSTEM_PACKAGES env variable
+        shell: bash
+        run: echo "PIP_BREAK_SYSTEM_PACKAGES=1" >> $GITHUB_ENV
+
+      - name: Install numpy
+        shell: bash
+        id: install-numpy
+        run: |
+          pip install numpy
+    
+      #- name: Free Disk Space
+      #  if: runner.os == 'Linux'
+      #  uses: jlumbroso/free-disk-space@main
+      #  with:
+      #    tool-cache: false
+      #    android: true
+      #    dotnet: true
+      #    haskell: true
+      #    large-packages: true
+      #    docker-images: true
+      #    swap-storage: true
+
+      #- name: Maximize build space
+      #  if: ${{ runner.os == 'Linux' && !github.event.repository.private }}
+      #  uses: easimon/maximize-build-space@master
+      #  with:
+      #    root-reserve-mb: 512
+      #    swap-size-mb: 1024
+      #    remove-dotnet: 'true'
+          
+      - name: Print Disk Space Post-Optimization
+        shell: bash
+        if: runner.os == 'Linux'
+        run: |
+          echo "Available disk space after optimization:"
+          df -h
 
       - name: Run `python -m third_party.sevenzlib`
         working-directory: pragma/build_scripts
