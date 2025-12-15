@@ -12,25 +12,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Silverlan/pragma (develop)
-        uses: actions/checkout@v4
-        with:
-          repository: Silverlan/pragma
-          ref: develop
-          path: pragma
+      #- name: Checkout Silverlan/pragma (develop)
+      #  uses: actions/checkout@v4
+      #  with:
+      #    repository: Silverlan/pragma
+      #    ref: develop
+      #    path: pragma
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+      #- name: Set up Python
+      #  uses: actions/setup-python@v4
+      #  with:
+      #    python-version: '3.11'
 
-      - name: (Optional) Install requirements if present
-        working-directory: pragma/build_scripts
-        run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then
-            python -m pip install -r requirements.txt
-          fi
+      #- name: (Optional) Install requirements if present
+      #  working-directory: pragma/build_scripts
+      #  run: |
+      #    python -m pip install --upgrade pip
+      #    if [ -f requirements.txt ]; then
+      #      python -m pip install -r requirements.txt
+      #    fi
+
+      - name: Setup Pragma
+        uses: Silverlan/pragma/github_actions/setup@develop
+        with:
+          branch: '${{ inputs.pragma_branch }}'
 
       - name: Run `python -m third_party.sevenzlib`
         working-directory: pragma/build_scripts
