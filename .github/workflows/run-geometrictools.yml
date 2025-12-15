@@ -35,7 +35,7 @@ jobs:
       - name: Setup Pragma
         uses: Silverlan/pragma/github_actions/setup@develop
         with:
-          branch: '${{ inputs.pragma_branch }}'
+          branch: 'develop'
 
       - name: Run `python -m third_party.sevenzlib`
         working-directory: pragma/build_scripts
