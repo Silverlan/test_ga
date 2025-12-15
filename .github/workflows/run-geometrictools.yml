@@ -12,12 +12,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Silverlan/pragma (develop)
-        uses: actions/checkout@v4
-        with:
-          repository: Silverlan/pragma
-          ref: develop
-          path: pragma
+      #- name: Checkout Silverlan/pragma (develop)
+      #  uses: actions/checkout@v4
+      #  with:
+      #    repository: Silverlan/pragma
+      #    ref: develop
+      #    path: pragma
 
       #- name: Set up Python
       #  uses: actions/setup-python@v4
@@ -32,41 +32,17 @@ jobs:
       #      python -m pip install -r requirements.txt
       #    fi
 
-      #- name: Setup Pragma
-      #  uses: Silverlan/pragma/github_actions/setup@develop
-      #  with:
-      #    branch: 'develop'
+      - name: Setup Pragma
+        uses: Silverlan/pragma/github_actions/setup@develop
+        with:
+          branch: 'develop'
+          with_system_gcc: '1'
 
-      - name: Setup cmake
-        uses: jwlawson/actions-setup-cmake@v2
-
-      - name: Install Dependencies
-        shell: bash
-        run: |
-          sudo apt install ninja-build
-
-      # This is a temporary fix until https://github.com/actions/runner-images/pull/9956 has been merged
-      - name: Purge needrestart
-        shell: bash
-        if: ${{ runner.os == 'Linux' }}
-        run: |
-          sudo apt-get purge needrestart
-
-      - name: Set PIP_BREAK_SYSTEM_PACKAGES env variable
-        shell: bash
-        run: echo "PIP_BREAK_SYSTEM_PACKAGES=1" >> $GITHUB_ENV
-
-      - name: Install numpy
-        shell: bash
-        id: install-numpy
-        run: |
-          pip install numpy
-    
       #- name: Clear Disk Space
       #  uses: Silverlan/common_actions/clear_disk_space@main
 
-      - name: Setup GCC
-        uses: Silverlan/common_actions/setup_gcc@main
+      #- name: Setup GCC
+      #  uses: Silverlan/common_actions/setup_gcc@main
 
       #- name: Free Disk Space
       #  if: runner.os == 'Linux'
