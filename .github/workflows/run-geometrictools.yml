@@ -1,0 +1,37 @@
+name: Run sevenzlib (Linux)
+
+# Trigger manually or on push to the workflow repo (adjust as needed)
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-sevenzlib:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Silverlan/pragma (develop)
+        uses: actions/checkout@v4
+        with:
+          repository: Silverlan/pragma
+          ref: develop
+          path: pragma
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: (Optional) Install requirements if present
+        working-directory: pragma/build_scripts
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then
+            python -m pip install -r requirements.txt
+          fi
+
+      - name: Run `python -m third_party.sevenzlib`
+        working-directory: pragma/build_scripts
+        run: python -m third_party.sevenzlib
