@@ -36,7 +36,8 @@ jobs:
         shell: bash
         if: runner.os == 'Linux'
         run: |
-          sudo apt install binutils-dev libiberty-dev
+          sudo apt-get update
+          sudo apt install binutils-dev
 
       - name: Setup Pragma
         uses: Silverlan/pragma/github_actions/setup@develop
