@@ -37,7 +37,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt install binutils-dev
+          sudo apt install binutils-dev libunwind-dev
 
       - name: Setup Pragma
         uses: Silverlan/pragma/github_actions/setup@develop
