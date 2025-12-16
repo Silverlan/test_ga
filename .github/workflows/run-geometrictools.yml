@@ -45,7 +45,24 @@ jobs:
           branch: 'develop'
           with_system_gcc: '1'
 
+      - name: Install Ninja
+        shell: bash
+        run: |
+          git clone -b v33.2 https://github.com/protocolbuffers/protobuf.git
 
+          cd protobuf
+          cmake -S . -B build \
+            -DCMAKE_INSTALL_PREFIX=../install \
+            -DCMAKE_BUILD_TYPE=Release
+
+          # Compile the code
+          cmake --build build --parallel 10
+
+          # Run tests
+          # ctest --test-dir build --verbose
+
+          # Install the libraries and headers
+          cmake --install build
 
       #- name: Clear Disk Space
       #  uses: Silverlan/common_actions/clear_disk_space@main
@@ -72,45 +89,6 @@ jobs:
       #    root-reserve-mb: 512
       #    swap-size-mb: 1024
       #    remove-dotnet: 'true'
-          
-      - name: Print Disk Space Post-Optimization
-        shell: bash
-        if: runner.os == 'Linux'
-        run: |
-          echo "Available disk space after optimization:"
-          df -h
-
-      - name: Install Ninja
-        shell: bash
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y ninja-build
-
-          mkdir deps
-          mkdir install
-
-      - name: Build luamake
-        shell: bash
-        run: |
-          deps=$PWD/deps
-          cd pragma/build_scripts
-          python "third_party/lua_debug/build_luamake.py" "$deps"
-
-      - name: Build luadebug
-        if: runner.os == 'Linux'
-        shell: bash
-        run: |
-          deps=$PWD/deps
-          cd pragma/build_scripts
-          python "third_party/lua_debug/build_luadebug.py" "$deps"
-
-      - name: Install
-        shell: bash
-        run: |
-          deps=$PWD/deps
-          install=$PWD/install
-          cd pragma/build_scripts
-          python "third_party/lua_debug/install_files.py" "$deps" "$install"
 
       #- name: Run `python -m third_party.sevenzlib`
       #  working-directory: pragma/build_scripts
