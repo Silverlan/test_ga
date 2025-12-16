@@ -32,17 +32,19 @@ jobs:
       #      python -m pip install -r requirements.txt
       #    fi
 
+      - name: Binutils
+        shell: bash
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt install binutils-dev libiberty-dev
+
       - name: Setup Pragma
         uses: Silverlan/pragma/github_actions/setup@develop
         with:
           branch: 'develop'
           with_system_gcc: '1'
 
-      - name: Binutils
-        shell: bash
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt install binutils-dev libiberty-dev
+
 
       #- name: Clear Disk Space
       #  uses: Silverlan/common_actions/clear_disk_space@main
