@@ -71,6 +71,28 @@ jobs:
           echo "Available disk space after optimization:"
           df -h
 
-      - name: Run `python -m third_party.sevenzlib`
-        working-directory: pragma/build_scripts
-        run: python -m third_party.sevenzlib
+      - name: Install Ninja
+        shell: bash
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ninja-build
+
+      - name: Build luamake
+        shell: bash
+        run: |
+          python "pragma/build_scripts/third_party/lua_debug/build_luamake.py" "deps"
+
+      - name: Build luadebug
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          python "pragma/build_scripts/third_party/lua_debug/build_luadebug.py" "deps"
+
+      - name: Install
+        shell: bash
+        run: |
+          python "pragma/build_scripts/third_party/lua_debug/install_files.py" "deps" "install"
+
+      #- name: Run `python -m third_party.sevenzlib`
+      #  working-directory: pragma/build_scripts
+      #  run: python -m third_party.sevenzlib
