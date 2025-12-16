@@ -83,18 +83,21 @@ jobs:
       - name: Build luamake
         shell: bash
         run: |
-          python "pragma/build_scripts/third_party/lua_debug/build_luamake.py" "deps"
+          cd pragma/build_scripts
+          python "third_party/lua_debug/build_luamake.py" "deps"
 
       - name: Build luadebug
         if: runner.os == 'Linux'
         shell: bash
         run: |
-          python "pragma/build_scripts/third_party/lua_debug/build_luadebug.py" "deps"
+          cd pragma/build_scripts
+          python "third_party/lua_debug/build_luadebug.py" "deps"
 
       - name: Install
         shell: bash
         run: |
-          python "pragma/build_scripts/third_party/lua_debug/install_files.py" "deps" "install"
+          cd pragma/build_scripts
+          python "third_party/lua_debug/install_files.py" "deps" "install"
 
       #- name: Run `python -m third_party.sevenzlib`
       #  working-directory: pragma/build_scripts
