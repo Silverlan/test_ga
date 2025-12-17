@@ -32,5 +32,6 @@ jobs:
           cd build_scripts
 
           cp $curDir/GameNetworkingSockets.py ./third_party/GameNetworkingSockets.py
+          cp $curDir/ninja.py ./third_party/ninja.py
 
           python -m third_party.GameNetworkingSockets
