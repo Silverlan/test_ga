@@ -24,6 +24,9 @@ jobs:
       - name: Build GameNetworkingSockets
         shell: bash
         run: |
+          sudo apt install libssl-dev
+          sudo apt install libprotobuf-dev protobuf-compiler
+
           curDir=$PWD
           cd pragma
           cd modules
