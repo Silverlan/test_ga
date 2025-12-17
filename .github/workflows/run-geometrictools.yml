@@ -12,84 +12,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      #- name: Checkout Silverlan/pragma (develop)
-      #  uses: actions/checkout@v4
-      #  with:
-      #    repository: Silverlan/pragma
-      #    ref: develop
-      #    path: pragma
-
-      #- name: Set up Python
-      #  uses: actions/setup-python@v4
-      #  with:
-      #    python-version: '3.11'
-
-      #- name: (Optional) Install requirements if present
-      #  working-directory: pragma/build_scripts
-      #  run: |
-      #    python -m pip install --upgrade pip
-      #    if [ -f requirements.txt ]; then
-      #      python -m pip install -r requirements.txt
-      #    fi
-
-      - name: Binutils
-        shell: bash
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt install binutils-dev libunwind-dev
-
       - name: Setup Pragma
         uses: Silverlan/pragma/github_actions/setup@develop
         with:
           branch: 'develop'
           with_system_gcc: '1'
 
-      - name: Install Ninja
+      - name: Build GameNetworkingSockets
         shell: bash
         run: |
-          git clone -b v33.2 https://github.com/protocolbuffers/protobuf.git
-
-          cd protobuf
-          cmake -S . -B build \
-            -DCMAKE_INSTALL_PREFIX=../install \
-            -DCMAKE_BUILD_TYPE=Release
-
-          # Compile the code
-          cmake --build build --parallel 10
-
-          # Run tests
-          # ctest --test-dir build --verbose
-
-          # Install the libraries and headers
-          cmake --install build
-
-      #- name: Clear Disk Space
-      #  uses: Silverlan/common_actions/clear_disk_space@main
-
-      #- name: Setup GCC
-      #  uses: Silverlan/common_actions/setup_gcc@main
-
-      #- name: Free Disk Space
-      #  if: runner.os == 'Linux'
-      #  uses: jlumbroso/free-disk-space@main
-      #  with:
-      #    tool-cache: false
-      #    android: true
-      #    dotnet: true
-      #    haskell: true
-      #    large-packages: true
-      #    docker-images: true
-      #    swap-storage: true
-
-      #- name: Maximize build space
-      #  if: ${{ runner.os == 'Linux' && !github.event.repository.private }}
-      #  uses: easimon/maximize-build-space@master
-      #  with:
-      #    root-reserve-mb: 512
-      #    swap-size-mb: 1024
-      #    remove-dotnet: 'true'
-
-      #- name: Run `python -m third_party.sevenzlib`
-      #  working-directory: pragma/build_scripts
-      #  run: python -m third_party.sevenzlib
+          cd pragma
+          cd modules
+          git clone https://github.com/Silverlan/pr_steam_networking_sockets.git
+          cd pr_steam_networking_sockets
+          python -m third_party.GameNetworkingSockets
