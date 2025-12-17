@@ -12,6 +12,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Setup Pragma
         uses: Silverlan/pragma/github_actions/setup@develop
         with:
@@ -21,9 +24,13 @@ jobs:
       - name: Build GameNetworkingSockets
         shell: bash
         run: |
+          curDir=$PWD
           cd pragma
           cd modules
           git clone https://github.com/Silverlan/pr_steam_networking_sockets.git
           cd pr_steam_networking_sockets
           cd build_scripts
+
+          cp $curDir/GameNetworkingSockets.py ./third_party/GameNetworkingSockets.py
+
           python -m third_party.GameNetworkingSockets
