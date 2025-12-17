@@ -11,8 +11,8 @@ def main():
 	build_config_tp = config.build_config_tp
 	deps_dir = config.deps_dir
 	generator = config.generator
-	no_confirm = config.no_confirm
-	no_sudo = config.no_sudo
+	no_confirm = True # config.no_confirm
+	no_sudo = True # config.no_sudo
 	chdir_mkdir(deps_dir)
 
 	# Custom env with ninja
