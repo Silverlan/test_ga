@@ -25,4 +25,5 @@ jobs:
           cd modules
           git clone https://github.com/Silverlan/pr_steam_networking_sockets.git
           cd pr_steam_networking_sockets
+          cd build_scripts
           python -m third_party.GameNetworkingSockets
